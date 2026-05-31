@@ -1,0 +1,116 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Infra API",
+    "version": "1.0.0",
+    "description": "Infra 后端API服务",
+    "contact": {
+      "name": "CJ",
+      "email": "chengjin@example.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/api/v1/users": {
+      "get": {
+        "tags": ["User"],
+        "summary": "用户列表",
+        "description": "查询用户列表",
+        "parameters": [
+          {"name": "page", "in": "query", "schema": {"type": "integer"}},
+          {"name": "pageSize", "in": "query", "schema": {"type": "integer"}},
+          {"name": "username", "in": "query", "schema": {"type": "string"}},
+          {"name": "nickname", "in": "query", "schema": {"type": "string"}},
+          {"name": "status", "in": "query", "schema": {"type": "integer"}}
+        ],
+        "responses": {"200": {"description": "OK"}}
+      },
+      "post": {
+        "tags": ["User"],
+        "summary": "创建用户",
+        "description": "创建用户",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/CreateUserReq"}
+            }
+          }
+        },
+        "responses": {"200": {"description": "OK"}}
+      }
+    },
+    "/api/v1/users/{id}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "获取用户详情",
+        "description": "获取用户详情",
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {"200": {"description": "OK"}}
+      },
+      "put": {
+        "tags": ["User"],
+        "summary": "更新用户",
+        "description": "更新用户",
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/UpdateUserReq"}
+            }
+          }
+        },
+        "responses": {"200": {"description": "OK"}}
+      },
+      "delete": {
+        "tags": ["User"],
+        "summary": "删除用户",
+        "description": "删除用户",
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "responses": {"200": {"description": "OK"}}
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateUserReq": {
+        "type": "object",
+        "required": ["username", "password", "nickname"],
+        "properties": {
+          "username": {"type": "string"},
+          "password": {"type": "string"},
+          "nickname": {"type": "string"},
+          "email": {"type": "string"},
+          "phone": {"type": "string"},
+          "gender": {"type": "integer"}
+        }
+      },
+      "UpdateUserReq": {
+        "type": "object",
+        "properties": {
+          "nickname": {"type": "string"},
+          "email": {"type": "string"},
+          "phone": {"type": "string"},
+          "gender": {"type": "integer"},
+          "status": {"type": "integer"}
+        }
+      }
+    }
+  }
+}
