@@ -2,9 +2,13 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 
+	_ "server/docs"
 	"server/internal/middleware"
 	"server/internal/shared/jwt"
+	"server/internal/system/auth"
 	"server/internal/system/user"
 )
 
@@ -15,13 +19,16 @@ func Register(r *gin.Engine, jwtManager *jwt.JWT) {
 	r.Use(middleware.Cors())
 	r.Use(middleware.Logger())
 
+	// Swagger 文档
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	// API路由组
 	api := r.Group("/api/v1")
 	{
 		// 公开路由 - 不需要认证
 		public := api.Group("")
 		{
-			_ = public // TODO: 注册auth路由 (登录)
+			auth.Register(public, jwtManager)
 		}
 
 		// 需要认证的路由

@@ -8,6 +8,9 @@ const (
 	NotFound        = 40400
 	UserNotFound    = 40001
 	RoleNotFound    = 40002
+	CaptchaError    = 40003
+	PasswordError   = 40004
+	UserDisabled    = 40005
 	PermissionError = 40301
 	InternalError   = 50000
 	DatabaseError   = 50001
@@ -21,6 +24,9 @@ var errMsg = map[int]string{
 	NotFound:        "资源不存在",
 	UserNotFound:    "用户不存在",
 	RoleNotFound:    "角色不存在",
+	CaptchaError:    "验证码错误",
+	PasswordError:   "用户名或密码错误",
+	UserDisabled:    "用户已被禁用",
 	PermissionError: "权限不足",
 	InternalError:   "内部服务器错误",
 	DatabaseError:   "数据库错误",

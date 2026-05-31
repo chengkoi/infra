@@ -30,6 +30,7 @@ func NewHandler(svc *Service) *Handler {
 // @Success      200   {object}  response.Response{data=UserResp}
 // @Failure      400   {object}  response.Response
 // @Failure      500   {object}  response.Response
+// @Security     BearerAuth
 // @Router       /api/v1/users [post]
 func (h *Handler) CreateUser(c *gin.Context) {
 	var req CreateUserReq
@@ -57,6 +58,7 @@ func (h *Handler) CreateUser(c *gin.Context) {
 // @Success      200   {object}  response.Response
 // @Failure      400   {object}  response.Response
 // @Failure      500   {object}  response.Response
+// @Security     BearerAuth
 // @Router       /api/v1/users/{id} [put]
 func (h *Handler) UpdateUser(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
@@ -89,6 +91,7 @@ func (h *Handler) UpdateUser(c *gin.Context) {
 // @Success      200  {object}  response.Response
 // @Failure      400  {object}  response.Response
 // @Failure      500  {object}  response.Response
+// @Security     BearerAuth
 // @Router       /api/v1/users/{id} [delete]
 func (h *Handler) DeleteUser(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
@@ -115,6 +118,7 @@ func (h *Handler) DeleteUser(c *gin.Context) {
 // @Success      200  {object}  response.Response{data=UserResp}
 // @Failure      400  {object}  response.Response
 // @Failure      404  {object}  response.Response
+// @Security     BearerAuth
 // @Router       /api/v1/users/{id} [get]
 func (h *Handler) GetUser(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
@@ -145,6 +149,7 @@ func (h *Handler) GetUser(c *gin.Context) {
 // @Param        status     query     int     false  "状态"
 // @Success      200        {object}  response.Response{data=UserListResp}
 // @Failure      500        {object}  response.Response
+// @Security     BearerAuth
 // @Router       /api/v1/users [get]
 func (h *Handler) ListUsers(c *gin.Context) {
 	var query UserQueryReq

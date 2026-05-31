@@ -3,7 +3,9 @@ package utils
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"math/rand"
 	"strings"
+	"time"
 )
 
 // MD5 MD5加密
@@ -31,4 +33,15 @@ func ToUpper(s string) string {
 // ToLower 转小写
 func ToLower(s string) string {
 	return strings.ToLower(s)
+}
+
+// RandomString 生成随机字符串
+func RandomString(n int) string {
+	const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = letters[rng.Intn(len(letters))]
+	}
+	return string(b)
 }

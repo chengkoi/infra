@@ -25,13 +25,20 @@ type Claims struct {
 // JWT JWT管理器
 type JWT struct {
 	secret []byte
+	expire int64
 }
 
 // New 创建JWT实例
-func New(secret string) *JWT {
+func New(secret string, expire int64) *JWT {
 	return &JWT{
 		secret: []byte(secret),
+		expire: expire,
 	}
+}
+
+// GetExpire 获取过期时间
+func (j *JWT) GetExpire() int64 {
+	return j.expire
 }
 
 // GenerateToken 生成token

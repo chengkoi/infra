@@ -5,13 +5,12 @@ server:
   write_timeout: 60
 
 database:
-  driver: mysql
+  driver: postgres
   host: localhost
-  port: 3306
-  username: root
-  password: ""
-  database: infra_dev
-  charset: utf8mb4
+  port: 5432
+  username: postgres
+  password: "tiger"
+  database: infra
   max_idle_conns: 10
   max_open_conns: 100
   conn_max_lifetime: 3600

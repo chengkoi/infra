@@ -9,8 +9,10 @@ build:
 	go build -o bin/server cmd/server/main.go
 
 # 生成Swagger文档
+SWAG := $(shell go env GOPATH)/bin/swag
+
 swag:
-	swag init -g cmd/server/main.go -o docs
+	$(SWAG) init -g cmd/server/main.go -o docs
 
 # 清理
 clean:

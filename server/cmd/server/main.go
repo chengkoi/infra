@@ -21,6 +21,7 @@ import (
 	"server/internal/shared/jwt"
 	"server/internal/shared/logger"
 	"server/internal/shared/validator"
+	"server/internal/system/user"
 )
 
 // @title           Infra API
@@ -33,6 +34,10 @@ import (
 // @host            localhost:8080
 // @schemes         http https
 // @BasePath        /
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description 输入 "Bearer <token>"，登录接口返回的 token
 
 var (
 	configPath string
@@ -77,6 +82,16 @@ func main() {
 			MaxOpenConns:    config.Conf.Database.MaxOpenConns,
 			ConnMaxLifetime: config.Conf.Database.ConnMaxLifetime,
 		},
+		PostgreSQL: database.PostgreSQL{
+			Host:            config.Conf.Database.Host,
+			Port:            config.Conf.Database.Port,
+			Username:        config.Conf.Database.Username,
+			Password:        config.Conf.Database.Password,
+			Database:        config.Conf.Database.Database,
+			MaxIdleConns:    config.Conf.Database.MaxIdleConns,
+			MaxOpenConns:    config.Conf.Database.MaxOpenConns,
+			ConnMaxLifetime: config.Conf.Database.ConnMaxLifetime,
+		},
 		SQLite: database.SQLite{
 			Path: config.Conf.Database.Path,
 		},
@@ -86,8 +101,14 @@ func main() {
 		panic(fmt.Sprintf("数据库初始化失败: %v", err))
 	}
 
+	// 自动建表
+	if err := database.DB.AutoMigrate(&user.User{}); err != nil {
+		logger.Error("自动建表失败")
+		panic(fmt.Sprintf("自动建表失败: %v", err))
+	}
+
 	// 初始化JWT
-	jwtManager := jwt.New(config.Conf.Jwt.Secret)
+	jwtManager := jwt.New(config.Conf.Jwt.Secret, config.Conf.Jwt.Expire)
 
 	// 设置Gin模式
 	gin.SetMode(config.Conf.Server.Mode)
