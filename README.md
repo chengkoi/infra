@@ -17,19 +17,14 @@ infra/
 │   │   ├── config.dev.yaml     # 开发环境
 │   │   └── config.prod.yaml    # 生产环境
 │   │
-│   ├── docs/
-│   │   ├── docs.go             # swag生成
-│   │   ├── swagger.json
-│   │   └── swagger.yaml
-│   │
 │   ├── internal/
 │   │
 │   │   ├── system/             # 系统模块
 │   │   │
 │   │   │   ├── auth/
-│   │   │   │   ├── handler.go  # 登录接口
-│   │   │   │   ├── service.go  # 登录业务
-│   │   │   │   ├── dto.go      # 登录请求响应
+│   │   │   │   ├── handler.go  # 登录/注册/忘记密码/重置密码
+│   │   │   │   ├── service.go  # 认证业务
+│   │   │   │   ├── dto.go      # 请求响应
 │   │   │   │   └── route.go    # 路由注册
 │   │   │   │
 │   │   │   ├── user/
@@ -40,6 +35,22 @@ infra/
 │   │   │   │   ├── dto.go      # 请求响应对象
 │   │   │   │   └── route.go    # 路由注册
 │   │   │   │
+│   │   │   ├── operlog/        # 操作日志
+│   │   │   │   ├── handler.go
+│   │   │   │   ├── service.go
+│   │   │   │   ├── repository.go
+│   │   │   │   ├── model.go
+│   │   │   │   ├── dto.go
+│   │   │   │   └── route.go
+│   │   │   │
+│   │   │   ├── loginlog/       # 登录日志
+│   │   │   │   ├── handler.go
+│   │   │   │   ├── service.go
+│   │   │   │   ├── repository.go
+│   │   │   │   ├── model.go
+│   │   │   │   ├── dto.go
+│   │   │   │   └── route.go
+│   │   │   │
 │   │   │   ├── dept/           # 部门
 │   │   │   ├── post/           # 岗位
 │   │   │   ├── role/           # 角色
@@ -49,9 +60,6 @@ infra/
 │   │   │   └── notice/         # 通知
 │   │   │
 │   │   ├── monitor/            # 监控模块
-│   │   │
-│   │   │   ├── operlog/        # 操作日志
-│   │   │   ├── loginlog/       # 登录日志
 │   │   │   ├── online/         # 在线用户
 │   │   │   ├── job/            # 定时任务
 │   │   │   ├── cache/          # 缓存监控
@@ -61,7 +69,6 @@ infra/
 │   │   ├── tool/               # 工具模块
 │   │   │
 │   │   │   ├── codegen/        # 代码生成
-│   │   │   └── swagger/        # Swagger工具
 │   │   │
 │   │   ├── middleware/         # 中间件
 │   │   │   ├── auth.go         # JWT认证
@@ -102,6 +109,7 @@ infra/
 │   │       └── utils/
 │   │           ├── time.go
 │   │           ├── string.go
+│   │           ├── captcha.go   # 验证码
 │   │           └── ip.go
 │   │
 │   ├── Makefile
@@ -126,8 +134,7 @@ infra/
 │
 ├── scripts/
 │   ├── build.sh
-│   ├── deploy.sh
-│   └── swag.sh
+│   └── deploy.sh
 │
 ├── LICENSE
 └── README.md
@@ -146,7 +153,7 @@ infra/
 - **存储**: 阿里云 OSS
 - **日志**: Zap
 - **配置**: Viper + fsnotify
-- **文档**: Swag
+- **文档**: OpenAPI 3.1
 - **JWT**: golang-jwt
 
 ### 前端技术栈
@@ -161,17 +168,11 @@ infra/
 
 ### 后端开发
 
-#### 初始化
+#### 初始化（go.mod 已存在则跳过）
 
 ```bash
 cd server
 go mod init github.com/chengjin/infra/server
-```
-
-#### 生成Swagger文档
-
-```bash
-swag init -g cmd/server/main.go -o docs
 ```
 
 #### 运行

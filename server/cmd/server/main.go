@@ -12,32 +12,17 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	// Swagger docs
-	_ "server/docs"
-
 	"server/internal/config"
 	"server/internal/router"
 	"server/internal/shared/database"
 	"server/internal/shared/jwt"
 	"server/internal/shared/logger"
+	"server/internal/shared/utils"
 	"server/internal/shared/validator"
+	"server/internal/system/loginlog"
+	"server/internal/system/operlog"
 	"server/internal/system/user"
 )
-
-// @title           Infra API
-// @version         1.0.0
-// @description     Infra 后端API服务
-// @contact.name    CJ
-// @contact.email   chengjin@example.com
-// @license.name    Apache 2.0
-// @license.url     http://www.apache.org/licenses/LICENSE-2.0.html
-// @host            localhost:8080
-// @schemes         http https
-// @BasePath        /
-// @securityDefinitions.apikey BearerAuth
-// @in header
-// @name Authorization
-// @description 输入 "Bearer <token>"，登录接口返回的 token
 
 var (
 	configPath string
@@ -102,9 +87,18 @@ func main() {
 	}
 
 	// 自动建表
-	if err := database.DB.AutoMigrate(&user.User{}); err != nil {
+	if err := database.DB.AutoMigrate(
+		&user.User{},
+		&operlog.OperLog{},
+		&loginlog.LoginLog{},
+	); err != nil {
 		logger.Error("自动建表失败")
 		panic(fmt.Sprintf("自动建表失败: %v", err))
+	}
+
+	// 初始化验证码存储
+	if config.Conf.Captcha.Enabled {
+		utils.NewCaptchaStore(config.Conf.Captcha.Expire)
 	}
 
 	// 初始化JWT

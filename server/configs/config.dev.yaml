@@ -34,6 +34,15 @@ log:
   max_age: 7
   compress: true
 
+captcha:
+  enabled: false
+  mode: digit             # digit | string | math | chinese
+  length: 4               # 验证码长度
+  width: 240              # 图片宽度
+  height: 80              # 图片高度
+  expire: 300             # 过期时间(秒)
+
+
 oss:
   endpoint: oss-cn-hangzhou.aliyuncs.com
   access_key_id: ""

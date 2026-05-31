@@ -15,6 +15,7 @@ type Config struct {
 	Jwt      Jwt      `mapstructure:"jwt"`
 	Log      Log      `mapstructure:"log"`
 	Oss      Oss      `mapstructure:"oss"`
+	Captcha  Captcha  `mapstructure:"captcha"`
 }
 
 // Server 服务配置
@@ -74,9 +75,18 @@ type Oss struct {
 	BasePath        string `mapstructure:"base_path"`
 }
 
+// Captcha 验证码配置
+type Captcha struct {
+	Enabled bool   `mapstructure:"enabled"`
+	Mode    string `mapstructure:"mode"`
+	Length  int    `mapstructure:"length"`
+	Width   int    `mapstructure:"width"`
+	Height  int    `mapstructure:"height"`
+	Expire  int    `mapstructure:"expire"`
+}
+
 var Conf *Config
 
-// Init 初始化配置
 func Init(configPath string) error {
 	v := viper.New()
 
@@ -91,7 +101,6 @@ func Init(configPath string) error {
 		return fmt.Errorf("解析配置文件失败: %w", err)
 	}
 
-	// 监听配置文件变更
 	v.WatchConfig()
 	v.OnConfigChange(func(e fsnotify.Event) {
 		fmt.Printf("配置文件已变更: %s\n", e.Name)

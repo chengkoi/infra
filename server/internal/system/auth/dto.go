@@ -4,8 +4,8 @@ package auth
 type LoginReq struct {
 	Username   string `json:"username" binding:"required" validate:"required,min=3,max=64"`
 	Password   string `json:"password" binding:"required" validate:"required,min=6,max=32"`
-	CaptchaID  string `json:"captcha_id" binding:"required"`
-	CaptchaAns string `json:"captcha_ans" binding:"required"`
+	CaptchaID  string `json:"captcha_id"`
+	CaptchaAns string `json:"captcha_ans"`
 }
 
 // RegisterReq 注册请求
@@ -15,15 +15,15 @@ type RegisterReq struct {
 	Nickname   string `json:"nickname" binding:"required" validate:"required,max=64"`
 	Email      string `json:"email" validate:"omitempty,email,max=128"`
 	Phone      string `json:"phone" validate:"omitempty,max=20"`
-	CaptchaID  string `json:"captcha_id" binding:"required"`
-	CaptchaAns string `json:"captcha_ans" binding:"required"`
+	CaptchaID  string `json:"captcha_id"`
+	CaptchaAns string `json:"captcha_ans"`
 }
 
 // ForgotPasswordReq 忘记密码请求
 type ForgotPasswordReq struct {
 	Username   string `json:"username" binding:"required"`
-	CaptchaID  string `json:"captcha_id" binding:"required"`
-	CaptchaAns string `json:"captcha_ans" binding:"required"`
+	CaptchaID  string `json:"captcha_id"`
+	CaptchaAns string `json:"captcha_ans"`
 }
 
 // ResetPasswordReq 重置密码请求

@@ -21,17 +21,6 @@ func NewHandler(svc *Service) *Handler {
 }
 
 // CreateUser 创建用户
-// @Summary      创建用户
-// @Description  创建用户
-// @Tags         User
-// @Accept       json
-// @Produce      json
-// @Param        body  body      CreateUserReq  true  "创建用户请求"
-// @Success      200   {object}  response.Response{data=UserResp}
-// @Failure      400   {object}  response.Response
-// @Failure      500   {object}  response.Response
-// @Security     BearerAuth
-// @Router       /api/v1/users [post]
 func (h *Handler) CreateUser(c *gin.Context) {
 	var req CreateUserReq
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -48,18 +37,6 @@ func (h *Handler) CreateUser(c *gin.Context) {
 }
 
 // UpdateUser 更新用户
-// @Summary      更新用户
-// @Description  更新用户
-// @Tags         User
-// @Accept       json
-// @Produce      json
-// @Param        id    path      int            true  "用户ID"
-// @Param        body  body      UpdateUserReq  true  "更新用户请求"
-// @Success      200   {object}  response.Response
-// @Failure      400   {object}  response.Response
-// @Failure      500   {object}  response.Response
-// @Security     BearerAuth
-// @Router       /api/v1/users/{id} [put]
 func (h *Handler) UpdateUser(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
@@ -82,17 +59,6 @@ func (h *Handler) UpdateUser(c *gin.Context) {
 }
 
 // DeleteUser 删除用户
-// @Summary      删除用户
-// @Description  删除用户
-// @Tags         User
-// @Accept       json
-// @Produce      json
-// @Param        id   path      int  true  "用户ID"
-// @Success      200  {object}  response.Response
-// @Failure      400  {object}  response.Response
-// @Failure      500  {object}  response.Response
-// @Security     BearerAuth
-// @Router       /api/v1/users/{id} [delete]
 func (h *Handler) DeleteUser(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
@@ -109,17 +75,6 @@ func (h *Handler) DeleteUser(c *gin.Context) {
 }
 
 // GetUser 获取用户详情
-// @Summary      获取用户详情
-// @Description  获取用户详情
-// @Tags         User
-// @Accept       json
-// @Produce      json
-// @Param        id   path      int  true  "用户ID"
-// @Success      200  {object}  response.Response{data=UserResp}
-// @Failure      400  {object}  response.Response
-// @Failure      404  {object}  response.Response
-// @Security     BearerAuth
-// @Router       /api/v1/users/{id} [get]
 func (h *Handler) GetUser(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
@@ -137,20 +92,6 @@ func (h *Handler) GetUser(c *gin.Context) {
 }
 
 // ListUsers 用户列表
-// @Summary      用户列表
-// @Description  查询用户列表
-// @Tags         User
-// @Accept       json
-// @Produce      json
-// @Param        page       query     int     false  "页码"
-// @Param        pageSize   query     int     false  "每页数量"
-// @Param        username   query     string  false  "用户名"
-// @Param        nickname   query     string  false  "昵称"
-// @Param        status     query     int     false  "状态"
-// @Success      200        {object}  response.Response{data=UserListResp}
-// @Failure      500        {object}  response.Response
-// @Security     BearerAuth
-// @Router       /api/v1/users [get]
 func (h *Handler) ListUsers(c *gin.Context) {
 	var query UserQueryReq
 	if err := c.ShouldBindQuery(&query); err != nil {
