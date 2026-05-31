@@ -155,6 +155,5 @@ func (h *Handler) Captcha(c *gin.Context) {
 		response.Fail(c, errno.InternalError, "生成验证码失败")
 		return
 	}
-	result.CaptchaID = result.CaptchaID
 	response.Success(c, result)
 }

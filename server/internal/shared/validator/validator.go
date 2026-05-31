@@ -33,7 +33,7 @@ func Init() {
 func GetError(err error) string {
 	if errs, ok := err.(validator.ValidationErrors); ok {
 		for _, e := range errs {
-			return fmt.Sprintf("%s %s", e.Field, getMessage(e))
+			return fmt.Sprintf("%s %s", e.Field(), getMessage(e))
 		}
 	}
 	return err.Error()

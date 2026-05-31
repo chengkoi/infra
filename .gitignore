@@ -1,0 +1,24 @@
+# === IDE ===
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === Go ===
+/server/bin/
+/server/logs/
+/server/tmp/
+
+# === Node ===
+/web/node_modules/
+/web/dist/
+
+# === Env ===
+.env
+.env.local
+.env.*.local
